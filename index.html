@@ -9,15 +9,22 @@
 <body>
 
   <div class="container">
-    <h1>📝 My Notes</h1>
 
+    <!-- Header with title + theme toggle -->
+    <div class="header">
+      <h1>📝 My Notes</h1>
+      <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+    </div>
+
+    <!-- Note input area -->
     <div class="note-input">
-  <textarea id="noteText" placeholder="Write your note here..."></textarea>
-  <button onclick="addNote()">Add Note</button>
-  </div>
-  <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+      <textarea id="noteText" placeholder="Write your note here..."></textarea>
+      <button onclick="addNote()">Add Note</button>
+    </div>
 
+    <!-- Notes list -->
     <ul id="notesList" class="notes-list"></ul>
+
   </div>
 
   <script src="script.js"></script>

@@ -57,13 +57,19 @@ button:hover {
   background-color: #45a049;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #themeToggle {
   background: transparent;
   border: none;
   font-size: 22px;
   cursor: pointer;
-  margin-bottom: 10px;
 }
+
 
 body.dark {
   background: #121212;

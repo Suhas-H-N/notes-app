@@ -10,19 +10,20 @@
 
   <div class="container">
 
-    <!-- Header with title + theme toggle -->
+    <!-- Header -->
     <div class="header">
       <h1>📝 My Notes</h1>
       <button id="themeToggle" onclick="toggleTheme()">🌙</button>
     </div>
 
-    <!-- Note input area -->
+    <!-- Note Input -->
     <div class="note-input">
+      <input type="text" id="noteTitle" placeholder="Note title..." />
       <textarea id="noteText" placeholder="Write your note here..."></textarea>
-      <button onclick="addNote()">Add Note</button>
+      <button onclick="addNote()">➕ Add Note</button>
     </div>
 
-    <!-- Notes list -->
+    <!-- Notes List -->
     <ul id="notesList" class="notes-list"></ul>
 
   </div>

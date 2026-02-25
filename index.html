@@ -3,30 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOTES APP</title>
+  <title>Notely — Your Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+  <div class="app-wrapper">
 
-    <!-- Header -->
-    <div class="header">
-      <h1>📝 My Notes</h1>
-      <button id="themeToggle" onclick="toggleTheme()">🌙</button>
-    </div>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">✦</span>
+          <span class="logo-text">Notely</span>
+        </div>
+        <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
 
-    <!-- Note Input -->
-    <div class="note-input">
-      <input type="text" id="noteTitle" placeholder="Note title..." />
-      <textarea id="noteText" placeholder="Write your note here..."></textarea>
-      <button onclick="addNote()">➕ Add New Note</button>
-    </div>
+      <div class="sidebar-search">
+        <input type="text" id="searchInput" placeholder="Search notes..." oninput="searchNotes()" />
+        <span class="search-icon">⌕</span>
+      </div>
 
-    <!-- Notes List -->
-    <ul id="notesList" class="notes-list"></ul>
+      <div class="sidebar-categories">
+        <p class="section-label">Categories</p>
+        <button class="cat-btn active" onclick="filterCategory('all', this)">📋 All Notes</button>
+        <button class="cat-btn" onclick="filterCategory('personal', this)">🌿 Personal</button>
+        <button class="cat-btn" onclick="filterCategory('work', this)">💼 Work</button>
+        <button class="cat-btn" onclick="filterCategory('ideas', this)">💡 Ideas</button>
+        <button class="cat-btn" onclick="filterCategory('important', this)">⭐ Important</button>
+      </div>
 
+      <div class="sidebar-stats">
+        <p class="section-label">Stats</p>
+        <div class="stat-row">
+          <span>Total Notes</span>
+          <span id="totalCount" class="stat-val">0</span>
+        </div>
+        <div class="stat-row">
+          <span>Pinned</span>
+          <span id="pinnedCount" class="stat-val">0</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <h2 class="topbar-title" id="topbarTitle">All Notes</h2>
+        <div class="topbar-actions">
+          <button class="view-btn" id="viewToggle" onclick="toggleView()" title="Toggle view">⊞</button>
+          <button class="new-note-btn" onclick="openModal()">+ New Note</button>
+        </div>
+      </div>
+
+      <!-- Notes Grid -->
+      <div class="notes-area">
+        <div id="notesList" class="notes-grid"></div>
+        <div id="emptyState" class="empty-state" style="display:none">
+          <div class="empty-icon">✦</div>
+          <p>No notes yet. Start writing!</p>
+          <button onclick="openModal()">Create your first note</button>
+        </div>
+      </div>
+
+    </main>
   </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">New Note</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="noteTitle" placeholder="Note title..." maxlength="60" />
+        <div class="modal-meta">
+          <select id="noteCategory">
+            <option value="personal">🌿 Personal</option>
+            <option value="work">💼 Work</option>
+            <option value="ideas">💡 Ideas</option>
+            <option value="important">⭐ Important</option>
+          </select>
+          <label class="pin-label">
+            <input type="checkbox" id="notePin" /> 📌 Pin note
+          </label>
+        </div>
+        <textarea id="noteText" placeholder="Write your note here..." rows="7"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveNote()">Save Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
   <script src="script.js"></script>
 </body>

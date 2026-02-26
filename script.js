@@ -6,7 +6,6 @@ let currentCategory = 'all';
 let currentSearch = '';
 let isListView = false;
 
-// ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(localStorage.getItem('theme') || 'light');
   fetchNotes();
@@ -25,8 +24,8 @@ async function fetchNotes() {
 }
 
 async function saveNoteToServer(note) {
-  const method = note.id ? 'PUT' : 'POST';
-  const url = note.id ? `${API}/notes/${note.id}` : `${API}/notes`;
+  const method = note._id ? 'PUT' : 'POST';
+  const url = note._id ? `${API}/notes/${note._id}` : `${API}/notes`;
   const res = await fetch(url, {
     method,
     headers: { 'Content-Type': 'application/json' },
@@ -65,14 +64,15 @@ function renderNotes() {
 function noteCard(n) {
   const date = new Date(n.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   const catLabels = { personal: '🌿 Personal', work: '💼 Work', ideas: '💡 Ideas', important: '⭐ Important' };
+  const id = n._id;
   return `
-    <div class="note-card ${n.pinned ? 'pinned' : ''}" onclick="openEditModal(${n.id})">
+    <div class="note-card ${n.pinned ? 'pinned' : ''}" onclick="openEditModal('${id}')">
       <div class="card-top">
         <div class="note-title">${escHtml(n.title || 'Untitled')}</div>
         <div class="note-actions">
-          <button class="action-btn" title="Pin" onclick="togglePin(event, ${n.id})">${n.pinned ? '📌' : '📍'}</button>
-          <button class="action-btn" title="Edit" onclick="openEditModal(${n.id}); event.stopPropagation()">✏️</button>
-          <button class="action-btn delete" title="Delete" onclick="deleteNote(event, ${n.id})">🗑</button>
+          <button class="action-btn" title="Pin" onclick="togglePin(event, '${id}')">${n.pinned ? '📌' : '📍'}</button>
+          <button class="action-btn" title="Edit" onclick="openEditModal('${id}'); event.stopPropagation()">✏️</button>
+          <button class="action-btn delete" title="Delete" onclick="deleteNote(event, '${id}')">🗑</button>
         </div>
       </div>
       <div class="note-body">${escHtml(n.text || '')}</div>
@@ -102,7 +102,7 @@ function openModal() {
 }
 
 function openEditModal(id) {
-  const note = notes.find(n => n.id === id);
+  const note = notes.find(n => n._id === id);
   if (!note) return;
   editingId = id;
   document.getElementById('modalTitle').textContent = 'Edit Note';
@@ -133,12 +133,12 @@ async function saveNote() {
   }
 
   const noteData = { title, text, category, pinned };
-  if (editingId) noteData.id = editingId;
+  if (editingId) noteData._id = editingId;
 
   try {
     const saved = await saveNoteToServer(noteData);
     if (editingId) {
-      notes = notes.map(n => n.id === editingId ? saved : n);
+      notes = notes.map(n => n._id === editingId ? saved : n);
       showToast('✅ Note updated');
     } else {
       notes.unshift(saved);
@@ -158,7 +158,7 @@ async function deleteNote(e, id) {
   if (!confirm('Delete this note?')) return;
   try {
     await deleteNoteFromServer(id);
-    notes = notes.filter(n => n.id !== id);
+    notes = notes.filter(n => n._id !== id);
     renderNotes();
     updateStats();
     showToast('🗑 Note deleted');
@@ -169,7 +169,7 @@ async function deleteNote(e, id) {
 
 async function togglePin(e, id) {
   e.stopPropagation();
-  const note = notes.find(n => n.id === id);
+  const note = notes.find(n => n._id === id);
   if (!note) return;
   note.pinned = !note.pinned;
   try {
@@ -236,7 +236,6 @@ function escHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Close sidebar on outside click (mobile)
 document.addEventListener('click', e => {
   const sidebar = document.getElementById('sidebar');
   if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
@@ -246,7 +245,6 @@ document.addEventListener('click', e => {
   }
 });
 
-// Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'n') { e.preventDefault(); openModal(); }
   if (e.key === 'Escape') closeModal();

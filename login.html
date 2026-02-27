@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,22 +12,58 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #1a1814;
+      --card: #f5f3ee;
+      --text: #1a1814;
+      --muted: #7a756c;
+      --border: #e2ddd5;
+      --accent: #c9502c;
+    }
+
+    [data-theme="dark"] {
+      --bg: #131210;
+      --card: #1e1c19;
+      --text: #f0ede6;
+      --muted: #9a948a;
+      --border: #2e2b27;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
-      background: #1a1814;
+      background: var(--bg);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
+      transition: background 0.25s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .card {
-      background: #f5f3ee;
+      background: var(--card);
       border-radius: 20px;
       padding: 44px 40px;
       width: min(440px, 100%);
       box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
     .logo {
@@ -37,25 +73,25 @@
       margin-bottom: 32px;
     }
 
-    .logo-icon { font-size: 1.6rem; color: #c9502c; }
+    .logo-icon { font-size: 1.6rem; color: var(--accent); }
 
     .logo-text {
       font-family: 'Playfair Display', serif;
       font-size: 1.7rem;
       font-weight: 700;
-      color: #1a1814;
+      color: var(--text);
     }
 
     .card h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
       font-weight: 500;
-      color: #1a1814;
+      color: var(--text);
       margin-bottom: 6px;
     }
 
     .card p {
-      color: #7a756c;
+      color: var(--muted);
       font-size: 0.9rem;
       margin-bottom: 28px;
     }
@@ -66,30 +102,28 @@
       display: block;
       font-size: 0.85rem;
       font-weight: 500;
-      color: #4a463f;
+      color: var(--muted);
       margin-bottom: 6px;
     }
 
     .field input {
       width: 100%;
-      background: #fff;
-      border: 1.5px solid #e2ddd5;
+      background: transparent;
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       padding: 12px 14px;
       font-family: 'DM Sans', sans-serif;
       font-size: 0.95rem;
-      color: #1a1814;
+      color: var(--text);
       outline: none;
       transition: border-color 0.2s;
     }
 
-    .field input:focus { border-color: #c9502c; }
-
-    .field input::placeholder { color: #b0ab9f; }
+    .field input:focus { border-color: var(--accent); }
 
     .btn-login {
       width: 100%;
-      background: #c9502c;
+      background: var(--accent);
       color: #fff;
       border: none;
       padding: 13px;
@@ -102,19 +136,10 @@
       transition: opacity 0.2s, transform 0.2s;
     }
 
-    .btn-login:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-    }
-
-    .btn-login:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .btn-login:hover { opacity: 0.88; transform: translateY(-1px); }
 
     .error-msg {
-      color: #c9502c;
+      color: #e53935;
       font-size: 0.85rem;
       margin-top: 12px;
       min-height: 20px;
@@ -124,22 +149,22 @@
     .register-link {
       text-align: center;
       font-size: 0.875rem;
-      color: #7a756c;
+      color: var(--muted);
       margin-top: 20px;
     }
 
     .register-link a {
-      color: #c9502c;
+      color: var(--accent);
       text-decoration: none;
       font-weight: 500;
     }
-
-    .register-link a:hover { text-decoration: underline; }
   </style>
 
 </head>
 
 <body>
+  <button class="theme-toggle" id="themeBtn">🌙</button>
+
   <div class="card">
     <div class="logo">
       <span class="logo-icon">✦</span>
@@ -152,19 +177,16 @@
 
 <form id="loginForm">
   <div class="field">
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="you@example.com" required />
+    <label>Email</label>
+    <input type="email" id="email" required>
   </div>
 
   <div class="field">
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="••••••••" required />
+    <label>Password</label>
+    <input type="password" id="password" required>
   </div>
 
-  <button type="submit" class="btn-login" id="loginBtn">
-    Sign In
-  </button>
-
+  <button type="submit" class="btn-login">Sign In</button>
   <div class="error-msg" id="errorMsg"></div>
 </form>
 
@@ -178,11 +200,23 @@
   <script>
     const API = 'http://localhost:3000';
 
-    // auto redirect if already logged in
-    if (localStorage.getItem('token')) {
-      window.location.href = 'index.html';
+    // ===== THEME =====
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const curr = document.documentElement.getAttribute('data-theme');
+      applyTheme(curr === 'dark' ? 'light' : 'dark');
+    });
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      document.getElementById('themeBtn').textContent =
+        theme === 'dark' ? '☀️' : '🌙';
     }
 
+    // ===== LOGIN =====
     document.getElementById('loginForm').addEventListener('submit', handleLogin);
 
     async function handleLogin(e) {
@@ -191,11 +225,8 @@
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const err = document.getElementById('errorMsg');
-      const btn = document.getElementById('loginBtn');
 
       err.textContent = '';
-      btn.disabled = true;
-      btn.textContent = 'Signing in...';
 
       try {
         const res = await fetch(`${API}/login`, {
@@ -207,21 +238,15 @@
         const data = await res.json();
 
         if (!res.ok) {
-          err.textContent = data.message || 'Invalid email or password';
+          err.textContent = data.message || 'Invalid credentials';
           return;
         }
 
-        // save JWT
         localStorage.setItem('token', data.token);
-
-        // redirect
         window.location.href = 'index.html';
 
-      } catch (error) {
+      } catch {
         err.textContent = '⚠️ Server not reachable';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Sign In';
       }
     }
   </script>

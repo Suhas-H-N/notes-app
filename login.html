@@ -2,44 +2,58 @@
 
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Notely — Login</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    /* ===== THEME VARIABLES (MATCH MAIN APP) ===== */
     :root {
-      --bg: #1a1814;
-      --card: #f5f3ee;
-      --text: #1a1814;
-      --muted: #7a756c;
+      --bg: #f5f3ee;
+      --surface: #ffffff;
+      --surface2: #f0ede6;
       --border: #e2ddd5;
+      --text: #1a1814;
+      --text-muted: #7a756c;
       --accent: #c9502c;
+      --shadow-lg: 0 24px 80px rgba(0,0,0,0.25);
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
     }
 
     [data-theme="dark"] {
       --bg: #131210;
-      --card: #1e1c19;
-      --text: #f0ede6;
-      --muted: #9a948a;
+      --surface: #1e1c19;
+      --surface2: #252320;
       --border: #2e2b27;
+      --text: #f0ede6;
+      --text-muted: #9a948a;
+      --shadow-lg: 0 24px 80px rgba(0,0,0,0.6);
     }
 
+    /* ===== PAGE ===== */
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
-      transition: background 0.25s ease;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
+    /* ===== THEME BUTTON ===== */
     .theme-toggle {
       position: fixed;
       top: 18px;
@@ -48,21 +62,29 @@
       height: 42px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: var(--card);
+      background: var(--surface);
       color: var(--text);
       cursor: pointer;
       font-size: 1.1rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
     }
 
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ===== CARD ===== */
     .card {
-      background: var(--card);
+      background: var(--surface);
       border-radius: 20px;
       padding: 44px 40px;
       width: min(440px, 100%);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+      box-shadow: var(--shadow-lg);
       transition: background 0.25s ease, color 0.25s ease;
     }
 
@@ -73,17 +95,20 @@
       margin-bottom: 32px;
     }
 
-    .logo-icon { font-size: 1.6rem; color: var(--accent); }
+    .logo-icon {
+      font-size: 1.6rem;
+      color: var(--accent);
+    }
 
     .logo-text {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-display);
       font-size: 1.7rem;
       font-weight: 700;
       color: var(--text);
     }
 
     .card h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-display);
       font-size: 1.3rem;
       font-weight: 500;
       color: var(--text);
@@ -91,36 +116,47 @@
     }
 
     .card p {
-      color: var(--muted);
+      color: var(--text-muted);
       font-size: 0.9rem;
       margin-bottom: 28px;
     }
 
-    .field { margin-bottom: 16px; }
+    /* ===== INPUTS ===== */
+    .field {
+      margin-bottom: 16px;
+    }
 
     .field label {
       display: block;
       font-size: 0.85rem;
       font-weight: 500;
-      color: var(--muted);
+      color: var(--text-muted);
       margin-bottom: 6px;
     }
 
     .field input {
       width: 100%;
-      background: transparent;
+      background: var(--surface2);
       border: 1.5px solid var(--border);
       border-radius: 10px;
       padding: 12px 14px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.95rem;
       color: var(--text);
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.25s;
     }
 
-    .field input:focus { border-color: var(--accent); }
+    .field input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
 
+    .field input:focus {
+      border-color: var(--accent);
+    }
+
+    /* ===== BUTTON ===== */
     .btn-login {
       width: 100%;
       background: var(--accent);
@@ -128,7 +164,7 @@
       border: none;
       padding: 13px;
       border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
@@ -136,7 +172,10 @@
       transition: opacity 0.2s, transform 0.2s;
     }
 
-    .btn-login:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-login:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
 
     .error-msg {
       color: #e53935;
@@ -149,7 +188,7 @@
     .register-link {
       text-align: center;
       font-size: 0.875rem;
-      color: var(--muted);
+      color: var(--text-muted);
       margin-top: 20px;
     }
 
@@ -157,6 +196,10 @@
       color: var(--accent);
       text-decoration: none;
       font-weight: 500;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
     }
   </style>
 
@@ -178,12 +221,12 @@
 <form id="loginForm">
   <div class="field">
     <label>Email</label>
-    <input type="email" id="email" required>
+    <input type="email" id="email" placeholder="you@example.com" required />
   </div>
 
   <div class="field">
     <label>Password</label>
-    <input type="password" id="password" required>
+    <input type="password" id="password" placeholder="••••••••" required />
   </div>
 
   <button type="submit" class="btn-login">Sign In</button>
@@ -225,7 +268,6 @@
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const err = document.getElementById('errorMsg');
-
       err.textContent = '';
 
       try {

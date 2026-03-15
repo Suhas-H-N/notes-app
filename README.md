@@ -52,3 +52,14 @@ notes-app
     ├── server.js
     ├── package.json
     └── node_modules
+
+⚙️ Installation
+
+Clone the repository:
+git clone https://github.com/your-username/notes-app.git
+
+Navigate to backend folder:
+cd notes-app-backend
+
+Install dependencies:
+npm install

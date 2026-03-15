@@ -35,3 +35,20 @@ Tools:
 Git
 GitHub
 VS Code
+
+📂 Project Structure
+
+notes-app
+│
+├── index.html
+├── login.html
+├── style.css
+├── script.js
+├── package.json
+├── package-lock.json
+├── .gitignore
+│
+└── notes-app-backend
+    ├── server.js
+    ├── package.json
+    └── node_modules

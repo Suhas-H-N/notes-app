@@ -15,3 +15,23 @@ The project demonstrates frontend + backend integration, REST APIs, and database
 ✅ Notes stored with timestamp
 ✅ REST API backend
 ✅ Full stack architecture
+
+🛠 Tech Stack
+
+Frontend:
+HTML
+CSS
+JavaScript
+
+Backend:
+Node.js
+Express.js
+
+Database:
+MongoDB
+Mongoose
+
+Tools:
+Git
+GitHub
+VS Code

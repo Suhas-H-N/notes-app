@@ -63,3 +63,23 @@ cd notes-app-backend
 
 Install dependencies:
 npm install
+
+▶️ Running the Application
+
+1️⃣ Start MongoDB
+Open terminal and run:
+mongod
+
+2️⃣ Start Backend Server
+Inside backend folder:
+node server.js
+
+You should see:
+MongoDB Connected
+Server running at http://localhost:3000
+
+3️⃣ Run Frontend
+Open index.html or login.html using Live Server or directly in browser.
+
+Example:
+http://localhost:5500/login.html

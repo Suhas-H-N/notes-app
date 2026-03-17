@@ -83,3 +83,18 @@ Open index.html or login.html using Live Server or directly in browser.
 
 Example:
 http://localhost:5500/login.html
+
+📡 API Endpoints
+Get all notes
+GET /notes
+Add note
+POST /notes
+
+Body:
+
+{
+"title": "My Note",
+"text": "This is a note"
+}
+Delete note
+DELETE /notes/:id

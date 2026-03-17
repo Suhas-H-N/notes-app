@@ -98,3 +98,13 @@ Body:
 }
 Delete note
 DELETE /notes/:id
+
+💾 Database
+
+MongoDB stores notes in a collection:
+notesDB
+
+Each note contains:
+title
+text
+createdAt

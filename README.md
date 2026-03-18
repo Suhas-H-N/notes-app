@@ -108,3 +108,8 @@ Each note contains:
 title
 text
 createdAt
+
+📸 Example Note
+Title: Meeting Notes
+Text: Discuss project progress
+Time: 18 Feb 2026

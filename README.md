@@ -113,3 +113,11 @@ createdAt
 Title: Meeting Notes
 Text: Discuss project progress
 Time: 18 Feb 2026
+
+🔮 Future Improvements
+
+User authentication system 🔐
+Edit notes feature ✏️
+Search notes 🔎
+Tags / categories
+Deploy to cloud

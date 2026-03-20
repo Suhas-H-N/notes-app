@@ -121,3 +121,9 @@ Edit notes feature ✏️
 Search notes 🔎
 Tags / categories
 Deploy to cloud
+
+👨‍💻 Author
+Suhas H N
+
+GitHub:
+https://github.com/Suhas-H-N

@@ -12,6 +12,7 @@
 
   <div class="app-wrapper">
 
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo">
@@ -24,7 +25,7 @@
       </div>
 
       <div class="sidebar-search">
-        <input type="text" id="searchInput" placeholder="Search notes..." oninput="searchNotes()" />
+        <input type="text" id="searchInput" placeholder="Search notes…" oninput="searchNotes()" autocomplete="off" />
         <span class="search-icon">⌕</span>
       </div>
 
@@ -48,8 +49,16 @@
           <span id="pinnedCount" class="stat-val">0</span>
         </div>
       </div>
+
+      <div class="sidebar-footer">
+        <div class="user-row">
+          <span class="user-name" id="userGreeting">—</span>
+          <button class="logout-btn" onclick="logout()" title="Sign out">⏻</button>
+        </div>
+      </div>
     </aside>
 
+    <!-- ===== MAIN ===== -->
     <main class="main-content">
       <div class="topbar">
         <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
@@ -69,9 +78,10 @@
         </div>
       </div>
     </main>
+
   </div>
 
-  <!-- Modal -->
+  <!-- ===== MODAL ===== -->
   <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal" id="modal">
       <div class="modal-header">
@@ -79,7 +89,7 @@
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
-        <input type="text" id="noteTitle" placeholder="Note title..." maxlength="60" />
+        <input type="text" id="noteTitle" placeholder="Note title…" maxlength="80" />
         <div class="modal-meta">
           <select id="noteCategory">
             <option value="personal">🌿 Personal</option>
@@ -91,7 +101,8 @@
             <input type="checkbox" id="notePin" /> 📌 Pin note
           </label>
         </div>
-        <textarea id="noteText" placeholder="Write your note here..." rows="7"></textarea>
+        <textarea id="noteText" placeholder="Write your note here…" rows="7"></textarea>
+        <div class="char-count" id="charCount">0 characters</div>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal()">Cancel</button>
@@ -100,8 +111,25 @@
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
+  <!-- ===== CONFIRM DELETE DIALOG ===== -->
+  <div class="modal-overlay" id="confirmOverlay">
+    <div class="modal confirm-modal">
+      <div class="modal-header">
+        <h3>Delete Note?</h3>
+        <button class="modal-close" onclick="closeConfirm()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); font-size:0.9rem;">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="btn-delete" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="script.js"></script>
 </body>

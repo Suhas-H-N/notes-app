@@ -1,296 +1,107 @@
 <!DOCTYPE html>
-
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notely — Login</title>
-
+  <title>Notely — Sign In</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* ===== THEME VARIABLES (MATCH MAIN APP) ===== */
-    :root {
-      --bg: #f5f3ee;
-      --surface: #ffffff;
-      --surface2: #f0ede6;
-      --border: #e2ddd5;
-      --text: #1a1814;
-      --text-muted: #7a756c;
-      --accent: #c9502c;
-      --shadow-lg: 0 24px 80px rgba(0,0,0,0.25);
-      --font-display: 'Playfair Display', serif;
-      --font-body: 'DM Sans', sans-serif;
-    }
-
-    [data-theme="dark"] {
-      --bg: #131210;
-      --surface: #1e1c19;
-      --surface2: #252320;
-      --border: #2e2b27;
-      --text: #f0ede6;
-      --text-muted: #9a948a;
-      --shadow-lg: 0 24px 80px rgba(0,0,0,0.6);
-    }
-
-    /* ===== PAGE ===== */
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      transition: background 0.25s ease, color 0.25s ease;
-    }
-
-    /* ===== THEME BUTTON ===== */
-    .theme-toggle {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-      z-index: 10;
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ===== CARD ===== */
-    .card {
-      background: var(--surface);
-      border-radius: 20px;
-      padding: 44px 40px;
-      width: min(440px, 100%);
-      box-shadow: var(--shadow-lg);
-      transition: background 0.25s ease, color 0.25s ease;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 32px;
-    }
-
-    .logo-icon {
-      font-size: 1.6rem;
-      color: var(--accent);
-    }
-
-    .logo-text {
-      font-family: var(--font-display);
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .card h2 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 28px;
-    }
-
-    /* ===== INPUTS ===== */
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .field input {
-      width: 100%;
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s, background 0.25s;
-    }
-
-    .field input::placeholder {
-      color: var(--text-muted);
-      opacity: 0.7;
-    }
-
-    .field input:focus {
-      border-color: var(--accent);
-    }
-
-    /* ===== BUTTON ===== */
-    .btn-login {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 13px;
-      border-radius: 10px;
-      font-family: var(--font-body);
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .btn-login:hover {
-      opacity: 0.88;
-      transform: translateY(-1px);
-    }
-
-    .error-msg {
-      color: #e53935;
-      font-size: 0.85rem;
-      margin-top: 12px;
-      min-height: 20px;
-      text-align: center;
-    }
-
-    .register-link {
-      text-align: center;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      margin-top: 20px;
-    }
-
-    .register-link a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .register-link a:hover {
-      text-decoration: underline;
-    }
-  </style>
-
+  <link rel="stylesheet" href="auth.css" />
 </head>
-
 <body>
-  <button class="theme-toggle" id="themeBtn">🌙</button>
 
-  <div class="card">
-    <div class="logo">
-      <span class="logo-icon">✦</span>
-      <span class="logo-text">Notely</span>
+  <button class="theme-toggle" id="themeBtn" title="Toggle theme">🌙</button>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Notely</span>
+      </div>
+
+      <h2>Welcome back</h2>
+      <p class="auth-sub">Sign in to your notes</p>
+
+      <form id="loginForm" novalidate>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-pw-wrap">
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="pw-toggle" id="pwToggle" tabindex="-1" title="Show/hide password">👁</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth" id="submitBtn">Sign In</button>
+        <div class="error-msg" id="errorMsg" role="alert"></div>
+
+      </form>
+
+      <p class="auth-link">
+        Don't have an account? <a href="register.html">Create one</a>
+      </p>
+
     </div>
-
-```
-<h2>Welcome back</h2>
-<p>Sign in to your notes</p>
-
-<form id="loginForm">
-  <div class="field">
-    <label>Email</label>
-    <input type="email" id="email" placeholder="you@example.com" required />
   </div>
 
-  <div class="field">
-    <label>Password</label>
-    <input type="password" id="password" placeholder="••••••••" required />
-  </div>
-
-  <button type="submit" class="btn-login">Sign In</button>
-  <div class="error-msg" id="errorMsg"></div>
-</form>
-
-<div class="register-link">
-  Don't have an account? <a href="#">Create one</a>
-</div>
-```
-
-  </div>
-
+  <script src="auth.js"></script>
   <script>
     const API = 'http://localhost:3000';
 
-    // ===== THEME =====
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
+    // Redirect if already logged in
+    if (localStorage.getItem('token')) window.location.href = 'index.html';
 
-    document.getElementById('themeBtn').addEventListener('click', () => {
-      const curr = document.documentElement.getAttribute('data-theme');
-      applyTheme(curr === 'dark' ? 'light' : 'dark');
-    });
-
-    function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      document.getElementById('themeBtn').textContent =
-        theme === 'dark' ? '☀️' : '🌙';
-    }
-
-    // ===== LOGIN =====
-    document.getElementById('loginForm').addEventListener('submit', handleLogin);
-
-    async function handleLogin(e) {
+    // ── LOGIN ──────────────────────────────────
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const errEl    = document.getElementById('errorMsg');
+      const btn      = document.getElementById('submitBtn');
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const err = document.getElementById('errorMsg');
-      err.textContent = '';
+      errEl.textContent = '';
+      btn.textContent   = 'Signing in…';
+      btn.disabled      = true;
 
       try {
-        const res = await fetch(`${API}/login`, {
+        const res  = await fetch(`${API}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email, password }),
         });
-
         const data = await res.json();
 
         if (!res.ok) {
-          err.textContent = data.message || 'Invalid credentials';
+          errEl.textContent = data.message || 'Invalid credentials';
+          btn.textContent   = 'Sign In';
+          btn.disabled      = false;
           return;
         }
 
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userName', data.user.name);
         window.location.href = 'index.html';
 
       } catch {
-        err.textContent = '⚠️ Server not reachable';
+        errEl.textContent = '⚠️ Cannot reach server. Is the backend running?';
+        btn.textContent   = 'Sign In';
+        btn.disabled      = false;
       }
-    }
+    });
+
+    // ── PASSWORD TOGGLE ────────────────────────
+    document.getElementById('pwToggle').addEventListener('click', () => {
+      const inp = document.getElementById('password');
+      const btn = document.getElementById('pwToggle');
+      if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈'; }
+      else                         { inp.type = 'password'; btn.textContent = '👁'; }
+    });
   </script>
 
 </body>

@@ -1,132 +1,88 @@
-📝 Notes App (Full Stack)
+# ✦ Notely — Full-Stack Notes Application
 
-A full-stack Notes Application built using HTML, CSS, JavaScript, Node.js, Express, and MongoDB.
-This app allows users to create, view, and delete notes with persistent storage in a database.
+A full-stack notes app built with **HTML · CSS · JavaScript · Node.js · Express · MongoDB**.
 
-The project demonstrates frontend + backend integration, REST APIs, and database connectivity.
+---
 
-🚀 Features
+## 🗂 Project Structure
 
-✅ Create notes
-✅ Delete notes
-✅ Persistent storage using MongoDB
-✅ Responsive and modern UI
-✅ Dark / Light theme toggle 🌙☀️
-✅ Notes stored with timestamp
-✅ REST API backend
-✅ Full stack architecture
-
-🛠 Tech Stack
-
-Frontend:
-HTML
-CSS
-JavaScript
-
-Backend:
-Node.js
-Express.js
-
-Database:
-MongoDB
-Mongoose
-
-Tools:
-Git
-GitHub
-VS Code
-
-📂 Project Structure
-
-notes-app
+```
+notely/
+├── frontend/          ← Open with VS Code Live Server
+│   ├── index.html     ← Main app (notes dashboard)
+│   ├── login.html     ← Sign in page
+│   ├── register.html  ← Sign up page  (NEW)
+│   ├── script.js      ← App logic (JWT-authenticated API calls)
+│   ├── style.css      ← Main app styles
+│   ├── auth.css       ← Shared auth page styles  (NEW)
+│   └── auth.js        ← Shared theme logic for auth pages  (NEW)
 │
-├── index.html
-├── login.html
-├── style.css
-├── script.js
-├── package.json
-├── package-lock.json
-├── .gitignore
-│
-└── notes-app-backend
-    ├── server.js
+└── backend/           ← Node.js REST API
+    ├── server.js      ← Express app with JWT auth middleware
     ├── package.json
-    └── node_modules
+    ├── .env.example   ← Copy to .env and fill values  (NEW)
+    └── .gitignore
+```
 
-⚙️ Installation
+---
 
-Clone the repository:
-git clone https://github.com/your-username/notes-app.git
+## ⚙️ Setup
 
-Navigate to backend folder:
-cd notes-app-backend
+### 1. Backend
 
-Install dependencies:
+```bash
+cd backend
 npm install
-
-▶️ Running the Application
-
-1️⃣ Start MongoDB
-Open terminal and run:
-mongod
-
-2️⃣ Start Backend Server
-Inside backend folder:
-node server.js
+cp .env.example .env      # fill in MONGO_URI, JWT_SECRET, PORT
+npm run dev               # starts with nodemon
+```
 
 You should see:
-MongoDB Connected
-Server running at http://localhost:3000
+```
+✅ MongoDB connected
+✦ Notely server running at http://localhost:3000
+```
 
-3️⃣ Run Frontend
-Open index.html or login.html using Live Server or directly in browser.
+### 2. Frontend
 
-Example:
+Open `frontend/` in VS Code and launch `login.html` with **Live Server**.
+
+```
 http://localhost:5500/login.html
+```
 
-📡 API Endpoints
-Get all notes
-GET /notes
-Add note
-POST /notes
+---
 
-Body:
+## 📡 API Endpoints
 
-{
-"title": "My Note",
-"text": "This is a note"
-}
-Delete note
-DELETE /notes/:id
+| Method | Endpoint      | Auth | Description         |
+|--------|---------------|------|---------------------|
+| POST   | /register     | No   | Create account      |
+| POST   | /login        | No   | Sign in, get JWT    |
+| GET    | /notes        | Yes  | Get all your notes  |
+| GET    | /notes/:id    | Yes  | Get one note        |
+| POST   | /notes        | Yes  | Create note         |
+| PUT    | /notes/:id    | Yes  | Update note         |
+| DELETE | /notes/:id    | Yes  | Delete note         |
 
-💾 Database
+Protected routes require: `Authorization: Bearer <token>`
 
-MongoDB stores notes in a collection:
-notesDB
+---
 
-Each note contains:
-title
-text
-createdAt
+## ✅ Features
 
-📸 Example Note
-Title: Meeting Notes
-Text: Discuss project progress
-Time: 18 Feb 2026
+- Create, edit, delete, and pin notes
+- 4 categories: Personal, Work, Ideas, Important
+- Live search + category filter
+- Grid / List view toggle
+- Dark / Light theme (persisted)
+- JWT authentication (login + register)
+- Secure password hashing with bcrypt
+- Keyboard shortcuts: `Ctrl+N` new note, `Esc` close modal
+- Fully responsive (mobile sidebar)
 
-🔮 Future Improvements
+---
 
-User authentication system 🔐
-Edit notes feature ✏️
-Search notes 🔎
-Tags / categories
-Deploy to cloud
+## 👤 Author
 
-👨‍💻 Author
-Suhas H N
-
-GitHub:
-https://github.com/Suhas-H-N
-
-⭐ Support
-If you like this project, consider giving it a star ⭐ on GitHub.
+**Suhas H N** — [github.com/Suhas-H-N](https://github.com/Suhas-H-N)

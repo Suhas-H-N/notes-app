@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notely — Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+
+  <button class="theme-toggle" id="themeBtn" title="Toggle theme">🌙</button>
+
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Notely</span>
+      </div>
+
+      <h2>Create your account</h2>
+      <p class="auth-sub">Start organising your thoughts today</p>
+
+      <form id="registerForm" novalidate>
+
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Your name" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password <span class="field-hint">(min 6 characters)</span></label>
+          <div class="input-pw-wrap">
+            <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" required />
+            <button type="button" class="pw-toggle" id="pwToggle" tabindex="-1" title="Show/hide password">👁</button>
+          </div>
+          <div class="pw-strength" id="pwStrength"></div>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" id="confirm" placeholder="••••••••" autocomplete="new-password" required />
+        </div>
+
+        <button type="submit" class="btn-auth" id="submitBtn">Create Account</button>
+        <div class="error-msg" id="errorMsg" role="alert"></div>
+
+      </form>
+
+      <p class="auth-link">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const API = 'http://localhost:3000';
+
+    if (localStorage.getItem('token')) window.location.href = 'index.html';
+
+    // ── PASSWORD STRENGTH ──────────────────────
+    document.getElementById('password').addEventListener('input', function () {
+      const val = this.value;
+      const el  = document.getElementById('pwStrength');
+      let score = 0;
+      if (val.length >= 6)  score++;
+      if (val.length >= 10) score++;
+      if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+
+      const levels = ['', 'Weak', 'Fair', 'Strong'];
+      const colors = ['', '#e53935', '#f57c00', '#388e3c'];
+      el.textContent  = val.length > 0 ? levels[score] || 'Weak' : '';
+      el.style.color  = colors[score] || colors[1];
+    });
+
+    // ── PASSWORD TOGGLE ────────────────────────
+    document.getElementById('pwToggle').addEventListener('click', () => {
+      const inp = document.getElementById('password');
+      const btn = document.getElementById('pwToggle');
+      if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈'; }
+      else                         { inp.type = 'password'; btn.textContent = '👁'; }
+    });
+
+    // ── REGISTER ───────────────────────────────
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name     = document.getElementById('name').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm  = document.getElementById('confirm').value;
+      const errEl    = document.getElementById('errorMsg');
+      const btn      = document.getElementById('submitBtn');
+
+      errEl.textContent = '';
+
+      if (!name)                       { errEl.textContent = 'Name is required';                return; }
+      if (password.length < 6)         { errEl.textContent = 'Password must be at least 6 characters'; return; }
+      if (password !== confirm)        { errEl.textContent = 'Passwords do not match';           return; }
+
+      btn.textContent = 'Creating account…';
+      btn.disabled    = true;
+
+      try {
+        const res  = await fetch(`${API}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errEl.textContent = data.message || 'Registration failed';
+          btn.textContent   = 'Create Account';
+          btn.disabled      = false;
+          return;
+        }
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userName', data.user.name);
+        window.location.href = 'index.html';
+
+      } catch {
+        errEl.textContent = '⚠️ Cannot reach server. Is the backend running?';
+        btn.textContent   = 'Create Account';
+        btn.disabled      = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

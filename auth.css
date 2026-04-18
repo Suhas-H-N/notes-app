@@ -1,0 +1,151 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f5f3ee;
+  --surface:  #ffffff;
+  --surface2: #f0ede6;
+  --border:   #e2ddd5;
+  --text:     #1a1814;
+  --text-muted: #7a756c;
+  --accent:   #c9502c;
+  --shadow-lg: 0 24px 80px rgba(0,0,0,0.18);
+  --radius:   14px;
+  --radius-sm: 8px;
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'DM Sans', sans-serif;
+  --transition: 0.2s ease;
+}
+
+[data-theme="dark"] {
+  --bg:       #131210;
+  --surface:  #1e1c19;
+  --surface2: #252320;
+  --border:   #2e2b27;
+  --text:     #f0ede6;
+  --text-muted: #9a948a;
+  --shadow-lg: 0 24px 80px rgba(0,0,0,0.55);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed;
+  top: 18px; right: 18px;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+  z-index: 10;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── CARD ── */
+.auth-page { width: 100%; display: flex; justify-content: center; }
+
+.auth-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 44px 40px;
+  width: min(440px, 100%);
+  box-shadow: var(--shadow-lg);
+  transition: background var(--transition);
+}
+
+/* ── LOGO ── */
+.logo { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.logo-icon { font-size: 1.6rem; color: var(--accent); }
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.7rem; font-weight: 700; color: var(--text);
+}
+
+.auth-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.35rem; font-weight: 500; margin-bottom: 6px;
+}
+.auth-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; }
+
+/* ── FIELDS ── */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block; font-size: 0.85rem; font-weight: 500;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.field-hint { font-size: 0.75rem; opacity: 0.7; font-weight: 400; }
+
+.field input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: var(--font-body); font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+.field input::placeholder { color: var(--text-muted); opacity: 0.7; }
+.field input:focus { border-color: var(--accent); }
+
+/* Password wrapper */
+.input-pw-wrap { position: relative; }
+.input-pw-wrap input { padding-right: 42px; }
+.pw-toggle {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  font-size: 0.9rem; color: var(--text-muted);
+  transition: color var(--transition);
+}
+.pw-toggle:hover { color: var(--accent); }
+
+.pw-strength {
+  font-size: 0.78rem; font-weight: 500; margin-top: 5px;
+  min-height: 18px; transition: color var(--transition);
+}
+
+/* ── BUTTON ── */
+.btn-auth {
+  width: 100%; margin-top: 8px;
+  background: var(--accent); color: #fff;
+  border: none; padding: 13px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+  cursor: pointer;
+  transition: opacity var(--transition), transform var(--transition);
+}
+.btn-auth:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+.btn-auth:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── MESSAGES ── */
+.error-msg {
+  color: #e53935; font-size: 0.85rem;
+  margin-top: 12px; min-height: 20px; text-align: center;
+}
+
+/* ── LINK ── */
+.auth-link {
+  text-align: center; font-size: 0.875rem;
+  color: var(--text-muted); margin-top: 20px;
+}
+.auth-link a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.auth-link a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 32px 24px; }
+}
